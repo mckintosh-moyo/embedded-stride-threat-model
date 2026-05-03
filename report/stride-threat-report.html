@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRIDE Threat Model Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        h1 { color: #1B3A6B; border-bottom: 3px solid #1B3A6B; padding-bottom: 10px; }
+        h2 { color: #2E75B6; margin-top: 30px; }
+        .meta {
+            background: #1B3A6B; color: white;
+            padding: 15px 20px; border-radius: 6px; margin-bottom: 25px;
+        }
+        .meta p { margin: 4px 0; }
+        .grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 15px; margin-bottom: 20px;
+        }
+        .grid2 {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 15px; margin-bottom: 30px;
+        }
+        .card {
+            padding: 20px; border-radius: 8px;
+            text-align: center; color: white; font-weight: bold;
+        }
+        .card .number { font-size: 2.5em; display: block; }
+        table {
+            width: 100%; border-collapse: collapse;
+            background: white; border-radius: 8px;
+            overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        th {
+            background: #1B3A6B; color: white;
+            padding: 12px 15px; text-align: left; font-size: 0.9em;
+        }
+        td { padding: 10px 15px; border-bottom: 1px solid #eee; font-size: 0.85em; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f9f9f9; }
+        .badge {
+            padding: 3px 8px; border-radius: 10px;
+            color: white; font-weight: bold;
+            font-size: 0.8em; display: inline-block;
+        }
+        .footer {
+            margin-top: 40px; text-align: center;
+            color: #888; font-size: 0.85em;
+            border-top: 1px solid #ddd; padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>STRIDE Threat Model Report — Embedded IoT Device</h1>
+    <div class="meta">
+        <p><strong>Author:</strong> Mckintosh Mpumelelo Moyo</p>
+        <p><strong>Program:</strong> MS Cybersecurity — Yeshiva University, Katz School</p>
+        <p><strong>Methodology:</strong> Microsoft STRIDE | Framework: NIST CSF 2.0</p>
+        <p><strong>Generated:</strong> May 03, 2026</p>
+    </div>
+
+    <h2>Risk Level Summary</h2>
+    <div class="grid">
+        <div class="card" style="background:#ff4444;">
+            <span class="number">11</span>CRITICAL
+        </div>
+        <div class="card" style="background:#ff8800;">
+            <span class="number">11</span>HIGH
+        </div>
+        <div class="card" style="background:#ccaa00;">
+            <span class="number">4</span>MEDIUM
+        </div>
+        <div class="card" style="background:#44bb44;">
+            <span class="number">0</span>LOW
+        </div>
+    </div>
+
+    <h2>STRIDE Category Breakdown</h2>
+    <div class="grid2">
+        <div class="card" style="background:#8B0000;">
+            <span class="number">4</span>Spoofing
+        </div>
+        <div class="card" style="background:#CC4400;">
+            <span class="number">6</span>Tampering
+        </div>
+        <div class="card" style="background:#6600CC;">
+            <span class="number">3</span>Repudiation
+        </div>
+        <div class="card" style="background:#0066CC;">
+            <span class="number">5</span>Info Disclosure
+        </div>
+        <div class="card" style="background:#CC6600;">
+            <span class="number">4</span>Denial of Service
+        </div>
+        <div class="card" style="background:#006600;">
+            <span class="number">4</span>Elevation of Priv
+        </div>
+    </div>
+
+    <h2>Full Threat Register</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Component</th>
+                <th>STRIDE</th>
+                <th>Threat</th>
+                <th>Attack Scenario</th>
+                <th>NIST Control</th>
+                <th>Risk</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td><strong>ST-001</strong></td>
+                <td>Bootloader</td>
+                <td><span class="badge" style="background:#CC4400">Tampering</span></td>
+                <td>Bootloader modified to load unsigned firmware</td>
+                <td style="font-size:0.82em">Attacker with physical access replaces bootloader with malicious version</td>
+                <td><strong>PR.PS-05</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-002</strong></td>
+                <td>Bootloader</td>
+                <td><span class="badge" style="background:#006600">Elevation of Privilege</span></td>
+                <td>Bootloader bypass grants root access</td>
+                <td style="font-size:0.82em">Attacker exploits bootloader vulnerability to gain unrestricted root shell</td>
+                <td><strong>PR.AA-05</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-003</strong></td>
+                <td>Bootloader</td>
+                <td><span class="badge" style="background:#0066CC">Information Disclosure</span></td>
+                <td>Bootloader exposes encryption keys in memory</td>
+                <td style="font-size:0.82em">Attacker uses JTAG to dump bootloader memory and extract device keys</td>
+                <td><strong>PR.DS-01</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-004</strong></td>
+                <td>Bootloader</td>
+                <td><span class="badge" style="background:#6600CC">Repudiation</span></td>
+                <td>No logging of bootloader events</td>
+                <td style="font-size:0.82em">Malicious firmware loaded with no audit trail</td>
+                <td><strong>PR.PS-04</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-005</strong></td>
+                <td>Firmware</td>
+                <td><span class="badge" style="background:#CC4400">Tampering</span></td>
+                <td>Malicious firmware installed via OTA update</td>
+                <td style="font-size:0.82em">Attacker intercepts OTA channel and delivers unsigned malicious firmware</td>
+                <td><strong>PR.PS-02</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-006</strong></td>
+                <td>Firmware</td>
+                <td><span class="badge" style="background:#0066CC">Information Disclosure</span></td>
+                <td>Hardcoded credentials in firmware</td>
+                <td style="font-size:0.82em">Attacker extracts and reverse engineers firmware to find hardcoded secrets</td>
+                <td><strong>PR.DS-01</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-007</strong></td>
+                <td>Firmware</td>
+                <td><span class="badge" style="background:#CC6600">Denial of Service</span></td>
+                <td>Firmware crash via malformed input</td>
+                <td style="font-size:0.82em">Attacker sends malformed packets causing firmware crash</td>
+                <td><strong>DE.CM-01</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-008</strong></td>
+                <td>Firmware</td>
+                <td><span class="badge" style="background:#006600">Elevation of Privilege</span></td>
+                <td>Firmware runs all services as root</td>
+                <td style="font-size:0.82em">Compromised service escalates to full device control</td>
+                <td><strong>PR.AA-05</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-009</strong></td>
+                <td>Firmware</td>
+                <td><span class="badge" style="background:#6600CC">Repudiation</span></td>
+                <td>Firmware actions not logged</td>
+                <td style="font-size:0.82em">Attacker modifies device configuration with no log entry</td>
+                <td><strong>PR.PS-04</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-010</strong></td>
+                <td>JTAG/UART Interface</td>
+                <td><span class="badge" style="background:#8B0000">Spoofing</span></td>
+                <td>Attacker impersonates authorized debugger</td>
+                <td style="font-size:0.82em">Attacker connects unauthorized JTAG debugger gaining full memory access</td>
+                <td><strong>PR.AA-03</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-011</strong></td>
+                <td>JTAG/UART Interface</td>
+                <td><span class="badge" style="background:#CC4400">Tampering</span></td>
+                <td>JTAG used to modify firmware in memory</td>
+                <td style="font-size:0.82em">Attacker patches running firmware via JTAG to disable security controls</td>
+                <td><strong>PR.PS-01</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-012</strong></td>
+                <td>JTAG/UART Interface</td>
+                <td><span class="badge" style="background:#0066CC">Information Disclosure</span></td>
+                <td>JTAG exposes full memory contents</td>
+                <td style="font-size:0.82em">Attacker dumps entire device memory extracting credentials and keys</td>
+                <td><strong>PR.DS-01</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-013</strong></td>
+                <td>JTAG/UART Interface</td>
+                <td><span class="badge" style="background:#006600">Elevation of Privilege</span></td>
+                <td>UART shell grants root access</td>
+                <td style="font-size:0.82em">Attacker connects to UART port and accesses root shell with no authentication</td>
+                <td><strong>PR.AA-01</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-014</strong></td>
+                <td>Local Network API</td>
+                <td><span class="badge" style="background:#8B0000">Spoofing</span></td>
+                <td>Attacker impersonates legitimate admin</td>
+                <td style="font-size:0.82em">Attacker uses stolen or default credentials to authenticate as administrator</td>
+                <td><strong>PR.AA-01</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-015</strong></td>
+                <td>Local Network API</td>
+                <td><span class="badge" style="background:#CC4400">Tampering</span></td>
+                <td>API accepts unauthorized configuration changes</td>
+                <td style="font-size:0.82em">Attacker sends crafted API requests to modify device configuration</td>
+                <td><strong>PR.AA-05</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-016</strong></td>
+                <td>Local Network API</td>
+                <td><span class="badge" style="background:#0066CC">Information Disclosure</span></td>
+                <td>API returns sensitive data over HTTP</td>
+                <td style="font-size:0.82em">Local API transmits credentials in plaintext over unencrypted HTTP</td>
+                <td><strong>PR.DS-02</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-017</strong></td>
+                <td>Local Network API</td>
+                <td><span class="badge" style="background:#CC6600">Denial of Service</span></td>
+                <td>API flooded with requests causing outage</td>
+                <td style="font-size:0.82em">Attacker floods local API with requests causing device unavailability</td>
+                <td><strong>DE.CM-01</strong></td>
+                <td><span class="badge" style="background:#ccaa00">MEDIUM</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-018</strong></td>
+                <td>Local Network API</td>
+                <td><span class="badge" style="background:#6600CC">Repudiation</span></td>
+                <td>API calls not logged</td>
+                <td style="font-size:0.82em">Attacker makes unauthorized configuration changes with no audit log</td>
+                <td><strong>PR.PS-04</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-019</strong></td>
+                <td>Cloud Backend</td>
+                <td><span class="badge" style="background:#8B0000">Spoofing</span></td>
+                <td>Attacker impersonates cloud backend</td>
+                <td style="font-size:0.82em">Attacker performs man-in-the-middle attack presenting fake cloud server</td>
+                <td><strong>PR.DS-02</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-020</strong></td>
+                <td>Cloud Backend</td>
+                <td><span class="badge" style="background:#CC4400">Tampering</span></td>
+                <td>Commands from cloud modified in transit</td>
+                <td style="font-size:0.82em">Attacker intercepts and modifies commands sent from cloud to device</td>
+                <td><strong>PR.DS-02</strong></td>
+                <td><span class="badge" style="background:#ff8800">HIGH</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-021</strong></td>
+                <td>Cloud Backend</td>
+                <td><span class="badge" style="background:#0066CC">Information Disclosure</span></td>
+                <td>Device telemetry intercepted in transit</td>
+                <td style="font-size:0.82em">Attacker intercepts unencrypted telemetry data</td>
+                <td><strong>PR.DS-02</strong></td>
+                <td><span class="badge" style="background:#ccaa00">MEDIUM</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-022</strong></td>
+                <td>Cloud Backend</td>
+                <td><span class="badge" style="background:#CC6600">Denial of Service</span></td>
+                <td>Cloud backend overwhelmed cutting off device</td>
+                <td style="font-size:0.82em">Attacker disrupts cloud backend severing device management</td>
+                <td><strong>DE.CM-01</strong></td>
+                <td><span class="badge" style="background:#ccaa00">MEDIUM</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-023</strong></td>
+                <td>Firmware Update</td>
+                <td><span class="badge" style="background:#8B0000">Spoofing</span></td>
+                <td>Attacker impersonates firmware update server</td>
+                <td style="font-size:0.82em">Attacker sets up rogue update server tricking device into downloading malware</td>
+                <td><strong>PR.DS-02</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-024</strong></td>
+                <td>Firmware Update</td>
+                <td><span class="badge" style="background:#CC4400">Tampering</span></td>
+                <td>Firmware image modified during download</td>
+                <td style="font-size:0.82em">Attacker performs man-in-the-middle attack modifying firmware in transit</td>
+                <td><strong>PR.PS-02</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-025</strong></td>
+                <td>Firmware Update</td>
+                <td><span class="badge" style="background:#CC6600">Denial of Service</span></td>
+                <td>Update server made unavailable</td>
+                <td style="font-size:0.82em">Attacker disrupts update server preventing security patches reaching devices</td>
+                <td><strong>PR.PS-02</strong></td>
+                <td><span class="badge" style="background:#ccaa00">MEDIUM</span></td>
+            </tr>
+
+            <tr>
+                <td><strong>ST-026</strong></td>
+                <td>Firmware Update</td>
+                <td><span class="badge" style="background:#006600">Elevation of Privilege</span></td>
+                <td>Update mechanism exploited for code execution</td>
+                <td style="font-size:0.82em">Attacker exploits update parser vulnerability to execute arbitrary code</td>
+                <td><strong>PR.AA-05</strong></td>
+                <td><span class="badge" style="background:#ff4444">CRITICAL</span></td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="footer">
+        <p>Generated by STRIDE Threat Model Report Generator</p>
+        <p>Mckintosh Mpumelelo Moyo — MS Cybersecurity, Yeshiva University</p>
+        <p>Methodology: Microsoft STRIDE | Framework: NIST CSF 2.0</p>
+    </div>
+</body>
+</html>
