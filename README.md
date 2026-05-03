@@ -9,6 +9,8 @@ Built by Mckintosh Mpumelelo Moyo — MS Cybersecurity, Yeshiva University
 
 ## What This Project Is
 
+![STRIDE Threat Model Demo](demo.gif)
+
 This project applies the STRIDE threat modeling framework to a generic
 embedded IoT device — the type of device used in smart building
 automation, industrial control systems, and connected hardware platforms.
